@@ -23,7 +23,7 @@ def menu_administrador(nombre):
                 try:
                     codigo=int(input("INGRESE EL CODIGO: "))
                     nombre_producto=input("INGRESE EL NOMBRE: ").strip().lower()
-                    precio=int(input("INGRESE EL PRECIO: "))
+                    precio=int(input("INGRESE EL PRECIO $: "))
                     stock=int(input("INGRESE EL STOCK: "))
                     agregar_producto(codigo,nombre_producto,precio,stock)
                 except ValueError:
@@ -62,3 +62,4 @@ def menu_administrador(nombre):
                 break
             case _:
                 print("INGRESE UNA OPCION VALIDA")
+
