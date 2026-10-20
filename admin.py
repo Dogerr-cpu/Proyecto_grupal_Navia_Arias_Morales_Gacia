@@ -15,48 +15,50 @@ def menu_administrador(nombre):
         9. Salir del sistema
         """)
         opcion=input("INGRESE UNA OPCION 1-9: ")
-        if opcion == "1":
-            ver_productos()
-        elif opcion == "2":
-            try:
-                codigo=int(input("INGRESE EL CODIGO: "))
-                nombre_producto=input("INGRESE EL NOMBRE: ").strip().lower()
-                precio=int(input("INGRESE EL PRECIO: "))
-                stock=int(input("INGRESE EL STOCK: "))
-                agregar_producto(codigo,nombre_producto,precio,stock)
-            except ValueError:
-                print("===INGRESE NUMEROS ENTEROS===")
-        elif opcion == "3":
-            try:
+        
+        match opcion:
+            case "1":
                 ver_productos()
-                codigo=int(input("INGRESE EL CODIGO DEL PRODUCTO: "))
-                cantidad=int(input("INGRESE LA CANTIDAD QUE ENTRA: "))
-                registrar_entrada(codigo,cantidad,nombre)
-            except ValueError:
-                print("===INGRESE NUMEROS ENTEROS===")
-        elif opcion == "4":
-            try:
-                ver_productos()
-                codigo=int(input("INGRESE EL CODIGO DEL PRODUCTO: "))
-                cantidad=int(input("INGRESE LA CANTIDAD QUE SALE: "))
-                registrar_salida(codigo,cantidad,nombre)
-            except ValueError:
-                print("===INGRESE NUMEROS ENTEROS===")
-        elif opcion == "5":
-            ver_movimientos()
-        elif opcion == "6":
-            ver_ventas()
-        elif opcion == "7":
-            print("CARGANDO USUARIOS....")
-            ver_usuarios()
-        elif opcion == "8":
-            print("CARGANDO SISTEMA...")
-            usuario_nuevo=input("INGRESA UN USUARIO: ").strip().lower()
-            clave_nueva=input(f"INGRESE LA CLAVE PARA {usuario_nuevo}: ")
-            tipo_nuevo=input(f"INGRESE QUE ACCESOS QUIERE PARA {usuario_nuevo}: ").lower()
-            agregar_usuario(usuario_nuevo,clave_nueva,tipo_nuevo)
-        elif opcion == "9":
-            print("SALIENDO DEL SISTEMA... ")
-            break
-        else:
-            print("INGRESE UNA OPCION VALIDA")
+            case "2":
+                try:
+                    codigo=int(input("INGRESE EL CODIGO: "))
+                    nombre_producto=input("INGRESE EL NOMBRE: ").strip().lower()
+                    precio=int(input("INGRESE EL PRECIO: "))
+                    stock=int(input("INGRESE EL STOCK: "))
+                    agregar_producto(codigo,nombre_producto,precio,stock)
+                except ValueError:
+                    print("===INGRESE NUMEROS ENTEROS===")
+            case "3":
+                try:
+                    ver_productos()
+                    codigo=int(input("INGRESE EL CODIGO DEL PRODUCTO: "))
+                    cantidad=int(input("INGRESE LA CANTIDAD QUE ENTRA: "))
+                    registrar_entrada(codigo,cantidad,nombre)
+                except ValueError:
+                    print("===INGRESE NUMEROS ENTEROS===")
+            case "4":
+                try:
+                    ver_productos()
+                    codigo=int(input("INGRESE EL CODIGO DEL PRODUCTO: "))
+                    cantidad=int(input("INGRESE LA CANTIDAD QUE SALE: "))
+                    registrar_salida(codigo,cantidad,nombre)
+                except ValueError:
+                    print("===INGRESE NUMEROS ENTEROS===")
+            case "5":
+                ver_movimientos()
+            case "6":
+                ver_ventas()
+            case "7":
+                print("CARGANDO USUARIOS....")
+                ver_usuarios()
+            case "8":
+                print("CARGANDO SISTEMA...")
+                usuario_nuevo=input("INGRESA UN USUARIO: ").strip().lower()
+                clave_nueva=input(f"INGRESE LA CLAVE PARA {usuario_nuevo}: ")
+                tipo_nuevo=input(f"INGRESE QUE ACCESOS QUIERE PARA {usuario_nuevo}: ").lower()
+                agregar_usuario(usuario_nuevo,clave_nueva,tipo_nuevo)
+            case "9":
+                print("SALIENDO DEL SISTEMA... ")
+                break
+            case _:
+                print("INGRESE UNA OPCION VALIDA")
