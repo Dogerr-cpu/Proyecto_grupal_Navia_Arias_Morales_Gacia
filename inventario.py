@@ -8,7 +8,9 @@ ventas=[]
 clientes_ventas=[]
 
 def ver_productos():
-    print("===PRODUCTOS DISPONIBLES===")
+    print("="*50)
+    print("PRODUCTOS DISPONIBLES")
+    print("="*50)
     for i in range(len(codigos)):
         print(f"CODIGO {codigos[i]}: {nombres_productos[i]} - PRECIO: ${precios[i]} - STOCK: {stocks[i]}")
 
@@ -71,17 +73,23 @@ def vender(codigo,cantidad,cliente,vendedor):
         print(f"VENTA REALIZADA. TOTAL: ${total}")
 
 def ver_movimientos():
-    print("===ENTRADAS Y SALIDAS===")
+    print("="*50)
+    print("ENTRADAS Y SALIDAS")
+    print("="*50)
     for movimiento in movimientos:
         print(movimiento)
 
 def ver_ventas():
-    print("===VENTAS REALIZADAS===")
+    print("="*50)
+    print("VENTAS REALIZADAS")
+    print("="*50)
     for venta in ventas:
         print(venta)
 
 def ver_mis_compras(cliente):
-    print("===MIS COMPRAS===")
+    print("="*50)
+    print("MIS COMPRAS")
+    print("="*50)
     for i in range(len(ventas)):
         if clientes_ventas[i] == cliente:
             print(ventas[i])
