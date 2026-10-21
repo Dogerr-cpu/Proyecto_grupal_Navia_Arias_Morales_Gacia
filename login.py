@@ -35,11 +35,6 @@ def eliminar_usuario(usuario):
         print("El usuario no existe en el sistema.")
 
 def modificar_usuario(usuario):
-    usuarios_registrados = ["sebas", "gerson", "camba"]
-claves_registradas = ["1234", "abcd", "1234"]
-tipo_usuario = ["administrador", "usuario", "comprador"]
-
-def modificar_usuario(usuario):
     if usuario in usuarios_registrados:
         i = usuarios_registrados.index(usuario)
         print(f"Modificando al usuario: {usuario}")
