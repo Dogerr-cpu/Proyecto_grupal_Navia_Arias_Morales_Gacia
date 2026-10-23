@@ -54,8 +54,8 @@ def menu_administrador(nombre):
             case "8":
                 print("CARGANDO SISTEMA...")
                 usuario_nuevo=input("INGRESA UN USUARIO: ").strip().lower()
-                clave_nueva=input(f"INGRESE LA CLAVE PARA {usuario_nuevo}: ")
-                tipo_nuevo=input(f"INGRESE QUE ACCESOS QUIERE PARA {usuario_nuevo}: ").lower()
+                clave_nueva=input(f"INGRESE LA CLAVE PARA {usuario_nuevo}: ").strip()
+                tipo_nuevo=input(f"INGRESE QUE ACCESOS QUIERE PARA {usuario_nuevo}: ").lower().strip()
                 agregar_usuario(usuario_nuevo,clave_nueva,tipo_nuevo)
             case "9":
                 print("SALIENDO DEL SISTEMA... ")
