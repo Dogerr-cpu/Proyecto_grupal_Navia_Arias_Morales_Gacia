@@ -66,7 +66,7 @@ def menu_administrador(nombre):
                 usuario_modificar=input("INGRESE EL USUARIO QUE DESEA CAMBIAR SU CONTRASEÑA: ").lower().strip()
                 modificar_usuario(usuario_modificar)
             case "11":
-                print("SALIENDO DEL SISTEMA... ")
+                print("SALIENDO DEL SISTEMA.... ")
                 break
             case _:
                 print("INGRESE UNA OPCION VALIDA")
