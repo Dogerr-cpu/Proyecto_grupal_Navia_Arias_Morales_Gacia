@@ -1,5 +1,5 @@
 from inventario import ver_productos,agregar_producto,registrar_entrada,registrar_salida,ver_movimientos,ver_ventas
-from login import ver_usuarios,agregar_usuario
+from login import ver_usuarios,agregar_usuario, eliminar_usuario, modificar_usuario
 
 def menu_administrador(nombre):
     while True:
@@ -12,9 +12,11 @@ def menu_administrador(nombre):
         6. Ver ventas
         7. Ver usuarios
         8. Agregar usuario
-        9. Salir del sistema
+        9. Eliminar usuario
+        10. Modificar usuario
+        11. Salir del sistema
         """)
-        opcion=input("INGRESE UNA OPCION 1-9: ")
+        opcion=input("INGRESE UNA OPCION 1-11: ")
         
         match opcion:
             case "1":
@@ -58,6 +60,12 @@ def menu_administrador(nombre):
                 tipo_nuevo=input(f"INGRESE QUE ACCESOS QUIERE PARA {usuario_nuevo}: ").lower().strip()
                 agregar_usuario(usuario_nuevo,clave_nueva,tipo_nuevo)
             case "9":
+                usuario_eliminar=input("ingrese el usuario a eliminar: ").lower().strip()
+                eliminar_usuario(usuario_eliminar)
+            case "10":
+                usuario_modificar=input("INGRESE EL USUARIO QUE DESEA CAMBIAR SU CONTRASEÑA: ").lower().strip()
+                modificar_usuario(usuario_modificar)
+            case "11":
                 print("SALIENDO DEL SISTEMA... ")
                 break
             case _:
