@@ -1,6 +1,5 @@
 from inventario import ver_productos,agregar_producto,registrar_entrada,registrar_salida,ver_movimientos,ver_ventas
 from login import ver_usuarios,agregar_usuario, eliminar_usuario, modificar_usuario
-
 def menu_administrador(nombre):
     while True:
         print(""" 
@@ -25,9 +24,12 @@ def menu_administrador(nombre):
                 try:
                     codigo=int(input("INGRESE EL CODIGO: "))
                     nombre_producto=input("INGRESE EL NOMBRE: ").strip().lower()
-                    precio=int(input("INGRESE EL PRECIO DEL PRODUCTO ($): "))
-                    stock=int(input("INGRESE EL STOCK: "))
-                    agregar_producto(codigo,nombre_producto,precio,stock)
+                    if nombre_producto.replace(" ","").isalpha():
+                        precio=int(input("INGRESE EL PRECIO DEL PRODUCTO ($): "))
+                        stock=int(input("INGRESE EL STOCK: "))
+                        agregar_producto(codigo,nombre_producto,precio,stock)
+                    else:
+                        print("NO PUEDES PONER NUMEROS EN NOMBRE DEL PRODUCTO")
                 except ValueError:
                     print("===INGRESE NUMEROS ENTEROS===")
             case "3":
@@ -56,8 +58,8 @@ def menu_administrador(nombre):
             case "8":
                 print("CARGANDO SISTEMA...")
                 usuario_nuevo=input("INGRESA UN USUARIO: ").strip().lower()
-                clave_nueva=input(f"INGRESE LA CLAVE PARA {usuario_nuevo}: ").strip()
-                tipo_nuevo=input(f"INGRESE QUE ACCESOS QUIERE PARA {usuario_nuevo}: ").lower().strip()
+                clave_nueva=input(f"INGRESE LA CLAVE PARA {usuario_nuevo}: ")
+                tipo_nuevo=input(f"INGRESE QUE ACCESOS QUIERE PARA {usuario_nuevo}: ").lower()
                 agregar_usuario(usuario_nuevo,clave_nueva,tipo_nuevo)
             case "9":
                 usuario_eliminar=input("ingrese el usuario a eliminar: ").lower().strip()
@@ -66,8 +68,8 @@ def menu_administrador(nombre):
                 usuario_modificar=input("INGRESE EL USUARIO QUE DESEA CAMBIAR SU CONTRASEÑA: ").lower().strip()
                 modificar_usuario(usuario_modificar)
             case "11":
-                print("SALIENDO DEL SISTEMA.... ")
-                break
+                print("CERRANDO SESION")
+                from main import main
+                main()
             case _:
                 print("INGRESE UNA OPCION VALIDA")
-
