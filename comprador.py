@@ -6,7 +6,7 @@ def menu_comprador(nombre):
         1. Ver productos
         2. Comprar
         3. Ver mis compras
-        4. Salir del sistema
+        4. Volver al login
         """)
         opcion=input("INGRESE UNA OPCION 1-4: ")
         match opcion:
@@ -23,7 +23,7 @@ def menu_comprador(nombre):
             case "3":
                 ver_mis_compras(nombre)
             case "4":
-                print("SALIENDO DEL SISTEMA....")
+                print("CERRANDO SESION....")
                 break
             case _:
                 print("INGRESE UNA OPCION VALIDA")
