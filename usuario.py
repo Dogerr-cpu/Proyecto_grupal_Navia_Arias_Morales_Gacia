@@ -9,7 +9,7 @@ def menu_usuario(nombre):
         4. Registrar salida
         5. Ver entradas y salidas
         6. Ver ventas
-        7. Salir del sistema
+        7. Volver al login
         """)
         opcion=input("INGRESE UNA OPCION 1-7: ")
         match opcion:
@@ -19,9 +19,12 @@ def menu_usuario(nombre):
                 try:
                     ver_productos()
                     cliente=input("INGRESE EL NOMBRE DEL CLIENTE: ").strip().lower()
-                    codigo=int(input("INGRESE EL CODIGO DEL PRODUCTO: "))
-                    cantidad=int(input("INGRESE LA CANTIDAD: "))
-                    vender(codigo,cantidad,cliente,nombre)
+                    if cliente.isalpha():
+                        codigo=int(input("INGRESE EL CODIGO DEL PRODUCTO: "))
+                        cantidad=int(input("INGRESE LA CANTIDAD: "))
+                        vender(codigo,cantidad,cliente,nombre)
+                    else:
+                        print("NO SE DEBE PONER NUMEROS EN EL NOMBRE DEL CLIENTE")
                 except ValueError:
                     print("INGRESE NUMEROS ENTEROS")
             case "3":
@@ -45,7 +48,7 @@ def menu_usuario(nombre):
             case "6":
                 ver_ventas()
             case "7":
-                print("SALIENDO DEL SISTEMA....")
+                print("CERRANDO SESIÓN....")
                 break
             case _:
                 print("INGRESE UNA OPCION VALIDA")
