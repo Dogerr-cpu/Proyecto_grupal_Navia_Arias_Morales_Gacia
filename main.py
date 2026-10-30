@@ -19,7 +19,7 @@ def main():
             if tipo == "administrador":
                 print(f"===BIENVENIDO AL MENU DE {tipo.upper()}===")
                 menu_administrador(usuario_ingresado)
-            elif tipo == "usuario":
+            elif tipo == "vendedor":
                 print(f"===BIENVENIDO AL MENU DE {tipo.upper()}===")
                 menu_usuario(usuario_ingresado)
             elif tipo == "comprador":
