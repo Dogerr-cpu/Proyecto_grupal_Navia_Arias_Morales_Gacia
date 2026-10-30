@@ -1,6 +1,5 @@
 from inventario import ver_productos,agregar_producto,registrar_entrada,registrar_salida,ver_movimientos,ver_ventas
 from login import ver_usuarios,agregar_usuario, eliminar_usuario, modificar_usuario
-
 def menu_administrador(nombre):
     while True:
         print(""" 
@@ -14,7 +13,7 @@ def menu_administrador(nombre):
         8. Agregar usuario
         9. Eliminar usuario
         10. Modificar usuario
-        11. Salir del sistema
+        11. Volver al login
         """)
         opcion=input("INGRESE UNA OPCION 1-11: ")
         
@@ -25,9 +24,12 @@ def menu_administrador(nombre):
                 try:
                     codigo=int(input("INGRESE EL CODIGO: "))
                     nombre_producto=input("INGRESE EL NOMBRE: ").strip().lower()
-                    precio=int(input("INGRESE EL PRECIO DEL PRODUCTO ($): "))
-                    stock=int(input("INGRESE EL STOCK: "))
-                    agregar_producto(codigo,nombre_producto,precio,stock)
+                    if nombre_producto.replace(" ","").isalpha():
+                        precio=int(input("INGRESE EL PRECIO DEL PRODUCTO ($): "))
+                        stock=int(input("INGRESE EL STOCK: "))
+                        agregar_producto(codigo,nombre_producto,precio,stock)
+                    else:
+                        print("NO PUEDES PONER NUMEROS EN NOMBRE DEL PRODUCTO")
                 except ValueError:
                     print("===INGRESE NUMEROS ENTEROS===")
             case "3":
@@ -66,8 +68,7 @@ def menu_administrador(nombre):
                 usuario_modificar=input("INGRESE EL USUARIO QUE DESEA CAMBIAR SU CONTRASEÑA: ").lower().strip()
                 modificar_usuario(usuario_modificar)
             case "11":
-                print("SALIENDO DEL SISTEMA... ")
+                print("CERRANDO SESION")
                 break
             case _:
                 print("INGRESE UNA OPCION VALIDA")
-
