@@ -12,7 +12,7 @@ def ver_productos():
     print("PRODUCTOS DISPONIBLES")
     print("="*50)
     for i in range(len(codigos)):
-        print(f"CODIGO {codigos[i]}: {nombres_productos[i]} - PRECIO: ${precios[i]} - STOCK: {stocks[i]}")
+        print(f"CODIGO {codigos[i]}: {nombres_productos[i]:<10} | PRECIO DOLARES: {precios[i]:<10}$ | PRECIO BS: {precios[i]*12:<10.2f} BS | STOCK: {stocks[i]}")
 
 def buscar_producto(codigo):
     for i in range(len(codigos)):
@@ -40,7 +40,7 @@ def registrar_entrada(codigo,cantidad,responsable):
         print("INGRESE UNA CANTIDAD VALIDA")
     else:
         stocks[posicion]=stocks[posicion]+cantidad
-        movimientos.append(f"ENTRADA - {nombres_productos[posicion]} - CANTIDAD: {cantidad} - POR: {responsable}")
+        movimientos.append(f"ENTRADA - {nombres_productos[posicion]:<8} | CANTIDAD: {cantidad:<5} | POR: {responsable}")
         print("ENTRADA REGISTRADA")
 
 def registrar_salida(codigo,cantidad,responsable):
@@ -53,7 +53,7 @@ def registrar_salida(codigo,cantidad,responsable):
         print("NO HAY SUFICIENTE STOCK")
     else:
         stocks[posicion]=stocks[posicion]-cantidad
-        movimientos.append(f"SALIDA - {nombres_productos[posicion]} - CANTIDAD: {cantidad} - POR: {responsable}")
+        movimientos.append(f"SALIDA - {nombres_productos[posicion]:<8} | CANTIDAD: {cantidad:<5} | POR: {responsable}")
         print("SALIDA REGISTRADA")
 
 def vender(codigo,cantidad,cliente,vendedor):
@@ -67,7 +67,7 @@ def vender(codigo,cantidad,cliente,vendedor):
     else:
         total=precios[posicion]*cantidad
         stocks[posicion]=stocks[posicion]-cantidad
-        ventas.append(f"{nombres_productos[posicion]} x{cantidad} = ${total} - CLIENTE: {cliente}")
+        ventas.append(f"{nombres_productos[posicion]} x {cantidad} = ${total} - CLIENTE: {cliente}")
         clientes_ventas.append(cliente)
         movimientos.append(f"SALIDA (VENTA) - {nombres_productos[posicion]} - CANTIDAD: {cantidad} - POR: {vendedor}")
         print(f"VENTA REALIZADA. TOTAL: ${total}")
