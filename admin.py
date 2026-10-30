@@ -13,7 +13,7 @@ def menu_administrador(nombre):
         8. Agregar usuario
         9. Eliminar usuario
         10. Modificar usuario
-        11. Salir del sistema
+        11. Volver al login
         """)
         opcion=input("INGRESE UNA OPCION 1-11: ")
         
@@ -69,7 +69,6 @@ def menu_administrador(nombre):
                 modificar_usuario(usuario_modificar)
             case "11":
                 print("CERRANDO SESION")
-                from main import main
-                main()
+                break
             case _:
                 print("INGRESE UNA OPCION VALIDA")
