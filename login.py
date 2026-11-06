@@ -1,8 +1,34 @@
 import tkinter as tk
 from tkinter import messagebox,simpledialog
-usuarios_registrados=["sebas","gerson","camba"]
-claves_registradas=["1234","abcd","1234"]
-tipo_usuario=["administrador","vendedor","comprador"]
+import json
+import os
+datos_usuarios="datos_usuarios_guardados.json"
+
+
+if os.path.exists(datos_usuarios):
+    try:
+        with open(datos_usuarios,"r",encoding="utf-8") as f:
+            datos_u=json.load(f)
+            usuarios_registrados=datos_u.get("usuarios_registrados",["sebas","gerson","camba"])
+            claves_registradas=datos_u.get("claves_registradas",["1234","abcd","1234"])
+            tipo_usuario=datos_u.get("tipo_usuario",["administrador","vendedor","comprador"])
+    except:
+        usuarios_registrados=["sebas","gerson","camba"]
+        claves_registradas=["1234","abcd","1234"]
+        tipo_usuario=["administrador","vendedor","comprador"]
+else:
+    usuarios_registrados=["sebas","gerson","camba"]
+    claves_registradas=["1234","abcd","1234"]
+    tipo_usuario=["administrador","vendedor","comprador"]
+
+def guardar_datos_u():
+    datos_u={
+        "usuarios_registrados":usuarios_registrados,
+        "claves_registradas":claves_registradas,
+        "tipo_usuario":tipo_usuario
+        }
+    with open(datos_usuarios,"w",encoding="utf-8") as f:
+        json.dump(datos_u,f,ensure_ascii=False,indent=4)
 
 def login(usuario,clave):
     for i in range(len(usuarios_registrados)):
@@ -18,22 +44,35 @@ def ver_usuarios():
     return m_usuarios
 
 def agregar_usuario(usuario,clave,tipo):
-    if tipo != "administrador" and tipo != "vendedor" and tipo != "comprador":
-        messagebox.showinfo("ERROR DE ACCESO","SOLO SE PUEDE ELEGIR ADMINISTRADOR, VENDEDOR O COMPRADOR")
-    elif usuario in usuarios_registrados:
+    if usuario in usuarios_registrados:
         messagebox.showinfo("ERROR DE USUARIO","ESE USUARIO YA EXISTE")
-    else:
+    elif tipo == 1:
         usuarios_registrados.append(usuario)
         claves_registradas.append(clave)
-        tipo_usuario.append(tipo)
+        tipo_usuario.append("administrador")
+        guardar_datos_u()
         messagebox.showinfo("EXITO","CUENTA AGREGADA")
-
+    elif tipo == 2:
+        usuarios_registrados.append(usuario)
+        claves_registradas.append(clave)
+        tipo_usuario.append("vendedor")
+        guardar_datos_u()
+        messagebox.showinfo("EXITO","CUENTA AGREGADA")
+    elif tipo == 3:
+        usuarios_registrados.append(usuario)
+        claves_registradas.append(clave)
+        tipo_usuario.append("comprador")
+        guardar_datos_u()
+        messagebox.showinfo("EXITO","CUENTA AGREGADA")
+    else:
+        messagebox.showwarning("ERROR","SOLO SELECIONA EL 1,2 O 3")
 def eliminar_usuario(usuario):
     if usuario in usuarios_registrados:
         i = usuarios_registrados.index(usuario)
         del usuarios_registrados[i]
         del claves_registradas[i]
         del tipo_usuario[i]
+        guardar_datos_u()
         messagebox.showinfo("ELIMINADO",f"EL USUARIO '{usuario.upper()}' FUE ELIMINADO EXITOSAMENTE.")
     else:
         messagebox.showwarning("EL USUARIO NO EXISTE EN EL SISTEMA.")
@@ -50,6 +89,7 @@ def modificar_usuario(usuario):
                 tipo_usuario[i] = nuevo_tipo
             else:
                 messagebox.showwarning("TIPO INVALIDO"," SE MANTUVO EL TIPO ANTERIOR")
+        guardar_datos_u()
         messagebox.showinfo("EXITO",f"¡USUARIO '{usuario.upper()}' MODIFICADO EXITOSAMENTE!")
     else:
         messagebox.showwarning("ERROR DE USUARIO","EL USUARIO NO EXISTE EN EL SISTEMA.")
