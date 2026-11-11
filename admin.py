@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from inventario import ver_productos, agregar_producto, registrar_entrada, registrar_salida, ver_movimientos, ver_ventas,vender
+from inventario import ver_productos, agregar_producto, registrar_entrada, registrar_salida, ver_movimientos, ver_ventas,vender,reeembolso
 from login import ver_usuarios, agregar_usuario, eliminar_usuario, modificar_usuario
 
 def menu_administrador(nombre,ventana):
@@ -8,6 +8,7 @@ def menu_administrador(nombre,ventana):
     ventana_administrador.title(f"MENU DE ADMINISTRADOR: {nombre.upper()}")
     ventana_administrador.geometry("1100x600")
     ventana_administrador.config(bg="Light green")
+    ventana_administrador.iconbitmap("Mejorado_creo.ico")
 
     def mostrar_productos_en_pantalla():
         lista_de_productos = ver_productos() 
@@ -89,11 +90,11 @@ def menu_administrador(nombre,ventana):
     def opcion8():
         try:
             usuario_nuevo=simpledialog.askstring("usuario","INGRESA UN USUARIO:").lower().strip()
+            if not usuario_nuevo: return
             clave_nueva=simpledialog.askstring("clave",f"INGRESA SU NUEVA CLAVE DE {usuario_nuevo.upper()}:").strip().lower()
             tipo_nuevo=simpledialog.askstring("accesos",f"""QUE ACCESOS QUIERE PARA EL USUARIO {usuario_nuevo.upper()} SELECCIONA CON UN NUMERO:
             1.Administrador
-            2.vendedor
-            3.comprador(usuario)""")
+            2.vendedor""")
             tipo_nuevo=int(tipo_nuevo)
             agregar_usuario(usuario_nuevo,clave_nueva,tipo_nuevo)
         except ValueError:
@@ -106,6 +107,7 @@ def menu_administrador(nombre,ventana):
         modificar_usuario(usuario_modificar)
     def vender_admin():
         try:
+            mostrar_productos_en_pantalla()
             cliente = simpledialog.askstring("cliente","INGRESE EL NOMBRE DEL CLIENTE:").strip().lower()
             if cliente is None:return
             if cliente.isalpha():
@@ -116,11 +118,23 @@ def menu_administrador(nombre,ventana):
                 if cantidad is None:return
                 cantidad=int(cantidad)
                 vender(codigo,cantidad,cliente,nombre)
+                mostrar_productos_en_pantalla()
             else:
                 messagebox.showwarning("Error nombre","NO SE DEBE PONER NUMEROS AL NOMBRE")
         except ValueError:
                   messagebox.showerror("Error numeros","INGRESE NUMEROS ENTEROS")
-    
+    def opcion_reembolso():
+        try:
+            mostrar_ventas()
+            cliente= simpledialog.askstring("NOMBRE DEL USUARIO","INGRESE EL NOMBRE DEL CLIENTE PARA REEMBOLSAR").strip().lower()
+            if cliente is None:return
+            cantidad= simpledialog.askstring("cantidad","INGRESA LA CANTIDAD:").strip()
+            if cantidad is None:return
+            cantidad=int(cantidad)
+            reeembolso(cliente,cantidad,nombre)
+            mostrar_productos_en_pantalla()
+        except ValueError:
+            messagebox.showerror("Error numeros","INGRESA NUMEROS ENTEROS")
     def opcion11():
         ventana_administrador.destroy()
         ventana.deiconify()
@@ -160,7 +174,8 @@ def menu_administrador(nombre,ventana):
 
     tk.Button(frame_izquierda, text="VENTAS", width=20,bg="green",fg="white",command=lambda: desplegar(menu_ventas)).pack(pady=10)
     tk.Button(menu_ventas, text="Ver ventas", command=mostrar_ventas).pack(fill=tk.X)
-    tk.Button(menu_ventas, text="Registrar venta", command=vender_admin).pack(fill=tk.X)
+    tk.Button(menu_ventas, text="Ventas", command=vender_admin).pack(fill=tk.X)
+    tk.Button(menu_ventas,text="Hacer el reembolso",command=opcion_reembolso).pack(fill=tk.X)
 
     tk.Button(frame_izquierda, text="VOLVER AL LOGIN", bg="red", fg="white",width=20, command=opcion11).pack(pady=15)
     tk.Label(frame_derecha, text="VISUALIZACION", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
