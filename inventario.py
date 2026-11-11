@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox,simpledialog
+from tkinter import messagebox,simpledialog,filedialog
 import json
 import os
 
@@ -16,6 +16,7 @@ if os.path.exists(Archivo_tienda):
             movimientos=datos.get("movimientos",[])
             ventas=datos.get("ventas",[])
             clientes_ventas=datos.get("clientes_ventas",[])
+            rutas_imagenes = datos.get("rutas_imagenes", ["", "", ""])
     except:
         codigos=[1,2,3]
         nombres_productos=["laptop","mouse","teclado"]
@@ -24,6 +25,7 @@ if os.path.exists(Archivo_tienda):
         movimientos=[]
         ventas=[]
         clientes_ventas=[]
+        rutas_imagenes =["", "", ""]
 else:
     codigos=[1,2,3]
     nombres_productos=["laptop","mouse","teclado"]
@@ -32,7 +34,7 @@ else:
     movimientos=[]
     ventas=[]
     clientes_ventas=[]
-
+    rutas_imagenes = ["", "", ""]
 def guardar_datos():
     datos={
         "codigos":codigos,
@@ -41,7 +43,8 @@ def guardar_datos():
         "stocks":stocks,
         "movimientos":movimientos,
         "ventas":ventas,
-        "clientes_ventas":clientes_ventas
+        "clientes_ventas":clientes_ventas,
+        "rutas_imagenes": rutas_imagenes
     }
     with open(Archivo_tienda,"w",encoding="utf-8") as a:
         json.dump(datos,a,indent=4,ensure_ascii=False)
@@ -142,39 +145,57 @@ def ver_mis_compras(cliente):
             c_ventas+=ventas[i]
     return c_ventas
 
-def reeembolso(codigo,cantidad,cliente):
-    posicion=buscar_producto(codigo)
-    if posicion == -1:
-        messagebox.showinfo("ERROR ENCONTRAR","NO ENCONTRADO EL PRODUCTO")
-        return
-    elif cantidad <= 0:
+def reeembolso(cliente,cantidad,nombre):
+    if cantidad <= 0:
         messagebox.showinfo("ERROR CANTIDAD","INGRESA UNA CANTIDAD VALIDA")
         return
-
-    cantidad_comprada=0
-    nombre_producto=nombres_productos[posicion].lower()
-    for venta in ventas:
-        if nombre_producto in venta.lower() and cliente in venta:
-            try:
-                partes=venta.split("x")
-                if len(partes) > 1:
-                    cantidad_com=partes[1].split()[0]
-                    cantidad_comprada+= int(cantidad_com)
-            except:
-                pass
-
-    if cantidad_comprada == 0:
-        messagebox.showwarning("AVISO", "No tienes registros de compra de este producto.")
+    verificar = -1
+    producto_encontrado=""
+    venta_texto=""
+    for i in range(len(clientes_ventas)):    
+        if cliente == clientes_ventas[i]:
+            verificar=i
+            venta_texto=ventas[i]
+            producto_encontrado=venta_texto.split("x")[0].strip().lower()
+            break    
+    if verificar == -1 :
+        messagebox.showinfo("ERROR USUARIO","NO ENCUENTRO EL USUARIO")
         return
-    elif cantidad > cantidad_comprada:
-        messagebox.showwarning("ERROR", f"No puedes devolver {cantidad}. Solo compraste {cantidad_comprada} unidad(es).")
-        return
-    stocks[posicion]+=cantidad
-    for i in range(len(ventas)):
-        if clientes_ventas[i] == cliente and nombre_producto in ventas[i].lower():
-            ventas.pop(i)
-            clientes_ventas.pop(i)
+    posicion_producto=-1
+    for p in range(len(nombres_productos)):
+        if nombres_productos[p] == producto_encontrado:
+            posicion_producto = p
             break
-    movimientos.append(f"REEMBOLSO DEL PRODUCTO: {nombres_productos[posicion]} DEL CLIENTE {cliente.upper()}\n")
-    guardar_datos()
-    messagebox.showinfo("EXITO","EL REEMBOLSO REGISTRADO Y ACTUALIZADO")
+
+    if posicion_producto == -1:
+        messagebox.showwarning("ERROR","No se encontro el producto asociado en el inventario")
+        return
+
+    try:
+        partes=venta_texto.split("x")
+        cantidad_comprada=int(partes[1].split()[0])
+    except:
+        cantidad_comprada=cantidad
+    
+    if cantidad > cantidad_comprada:
+        messagebox.showwarning("ERROR", f"No puedes devolver {cantidad}. Solo compró {cantidad_comprada} unidad(es).")
+        return
+    elif cantidad < cantidad_comprada:
+        stocks[posicion_producto]+=cantidad
+        actualizado_cantidad=cantidad_comprada-cantidad
+        actualizado_cantidad=str(actualizado_cantidad)
+        venta_actualizado=venta_texto.replace(str(cantidad_comprada),actualizado_cantidad)
+        ventas.pop(verificar)
+        clientes_ventas.pop(verificar)
+        ventas.insert(0,venta_actualizado)
+        clientes_ventas.insert(0,cliente)
+        movimientos.append(f"DEVOLUCIÓN PARCIAL ({cantidad}): {nombres_productos[posicion_producto]} DEL CLIENTE {cliente.upper()} | ATENDIÓ: {nombre.upper()}\n")
+        guardar_datos()
+        messagebox.showinfo("EXITO", "REEMBOLSO PARCIAL REGISTRADO Y STOCK ACTUALIZADO")
+    if cantidad == cantidad_comprada:
+        stocks[posicion_producto]+=cantidad
+        ventas.pop(verificar)
+        clientes_ventas.pop(verificar)
+        movimientos.append(f"REEMBOLSO DEL PRODUCTO: {nombres_productos[posicion_producto]} DEL CLIENTE {cliente.upper()} QUE HIZO EL PERSONAL {nombre.upper()}\n ")
+        guardar_datos()
+        messagebox.showinfo("EXITO", "REEMBOLSO REGISTRADO Y STOCK ACTUALIZADO")
