@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox,simpledialog
-from inventario import ver_productos,vender,registrar_entrada,registrar_salida,ver_movimientos,ver_ventas
+from inventario import ver_productos,vender,registrar_entrada,registrar_salida,ver_movimientos,ver_ventas,reeembolso
 
 def menu_usuario(nombre,ventana):
         ventana_vendedor = tk.Tk()
@@ -23,6 +23,7 @@ def menu_usuario(nombre,ventana):
                 cuadro_consola1.insert(tk.END,"no hay productos ahora")
         def opcion2():
             try:
+                opcion1()
                 cliente = simpledialog.askstring("cliente","INGRESE EL NOMBRE DEL CLIENTE:").strip().lower()
                 if cliente is None:return
                 if cliente.isalpha():
@@ -33,6 +34,7 @@ def menu_usuario(nombre,ventana):
                     if cantidad is None:return
                     cantidad=int(cantidad)
                     vender(codigo,cantidad,cliente,nombre)
+                    opcion6()
                 else:
                       messagebox.showwarning("Error nombre","NO SE DEBE PONER NUMEROS AL NOMBRE")
             except ValueError:
@@ -40,6 +42,7 @@ def menu_usuario(nombre,ventana):
 
         def opcion3():
             try:
+                opcion1()
                 codigo= simpledialog.askstring("codigo","INGRESE EL CODIGO DEL PRODUCTO QUE VA ENTRAR:").strip()
                 if codigo is None:return
                 codigo=int(codigo)
@@ -75,6 +78,18 @@ def menu_usuario(nombre,ventana):
                 cuadro_consola1.insert(tk.END,lista_ventas)
             else:
                 cuadro_consola1.insert(tk.END,"NO HAY VENTAS TODAVIA")
+        def opcion_reembolso():
+            try:
+                opcion6()
+                cliente= simpledialog.askstring("codigo","INGRESE EL NOMBRE DEL CLIENTE QUE DESEA REEMBOLSAR:").strip()
+                if cliente is None:return
+                cantidad= simpledialog.askstring("cantidad","INGRESA LA CANTIDAD:").strip()
+                if cantidad is None:return
+                cantidad=int(cantidad)
+                reeembolso(cliente,cantidad,nombre)
+                opcion1()
+            except ValueError:
+                messagebox.showerror("Error numeros","INGRESA NUMEROS ENTEROS")
         def opcion7():
             ventana_vendedor.destroy()
             ventana.deiconify()
@@ -86,7 +101,8 @@ def menu_usuario(nombre,ventana):
         tk.Button(frame_izquierda,text="4. Registrar salida",bg="green",fg="white",width=20,command=opcion4).pack(pady=5)
         tk.Button(frame_izquierda,text="5. Ver entradas y salidas",bg="green",fg="white",width=20,command=opcion5).pack(pady=5)
         tk.Button(frame_izquierda,text="6. Ver ventas",bg="green",fg="white",width=20,command=opcion6).pack(pady=5)
-        tk.Button(frame_izquierda,text="7. Volver al login",bg="red",fg="white",width=20,command=opcion7).pack(pady=5)
+        tk.Button(frame_izquierda,text="7. Hacer el reembolso",bg="green",fg="white",width=20,command=opcion_reembolso).pack(pady=5)
+        tk.Button(frame_izquierda,text="8. Volver al login",bg="red",fg="white",width=20,command=opcion7).pack(pady=5)
         cuadro_consola1 = tk.Text(frame_derecha, width=40, height=18, font=("Courier", 10), bg="blue",fg="white", bd=2)
         cuadro_consola1.pack(fill=tk.BOTH,expand=True)
         cuadro_consola1.insert(tk.END, "SELECCIONA CUALQUIERA DE LAS OPCIONES.....")
