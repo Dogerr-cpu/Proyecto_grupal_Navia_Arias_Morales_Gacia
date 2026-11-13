@@ -39,11 +39,6 @@ def main():
             messagebox.showinfo("LOGIN",f"===BIENVENIDO AL MENU DE {tipo.upper()}===")
             ventana.destroy()
             menu_usuario(usuario1,ventana_global)
-        
-        elif tipo == "comprador":
-            messagebox.showinfo("LOGIN",f"===BIENVENIDO AL MENU DE {tipo.upper()}===")
-            ventana.destroy()
-            menu_comprador(usuario1,ventana_global)
     
         else:
             messagebox.showwarning("ERROR","USUARIO O CONTRASEÑA INVALIDO")
