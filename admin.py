@@ -8,7 +8,6 @@ def menu_administrador(nombre,ventana):
     ventana_administrador.title(f"MENU DE ADMINISTRADOR: {nombre.upper()}")
     ventana_administrador.geometry("1100x600")
     ventana_administrador.config(bg="Light green")
-    ventana_administrador.iconbitmap("Mejorado_creo.ico")
 
     def mostrar_productos_en_pantalla():
         lista_de_productos = ver_productos() 
@@ -174,7 +173,7 @@ def menu_administrador(nombre,ventana):
 
     tk.Button(frame_izquierda, text="VENTAS", width=20,bg="green",fg="white",command=lambda: desplegar(menu_ventas)).pack(pady=10)
     tk.Button(menu_ventas, text="Ver ventas", command=mostrar_ventas).pack(fill=tk.X)
-    tk.Button(menu_ventas, text="Ventas", command=vender_admin).pack(fill=tk.X)
+    tk.Button(menu_ventas, text="Vender", command=vender_admin).pack(fill=tk.X)
     tk.Button(menu_ventas,text="Hacer el reembolso",command=opcion_reembolso).pack(fill=tk.X)
 
     tk.Button(frame_izquierda, text="VOLVER AL LOGIN", bg="red", fg="white",width=20, command=opcion11).pack(pady=15)
