@@ -3,7 +3,6 @@ from tkinter import messagebox,simpledialog
 from login import login
 from admin import menu_administrador
 from usuario import menu_usuario
-from comprador import menu_comprador
 
 def main():
     ventana = tk.Tk()
